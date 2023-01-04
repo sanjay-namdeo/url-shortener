@@ -3,4 +3,4 @@
 ### Dependencies
 1. Spring Data JPA
 2. Spring Web
-3. H2
+3. Oracle Cloud - Autonomous Database
