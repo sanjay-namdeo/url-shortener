@@ -1,5 +1,7 @@
 package com.example.urlshortner.service;
 
+import java.security.MessageDigest;
+
 import org.springframework.stereotype.Service;
 
 import com.example.urlshortner.entity.ShortURL;
@@ -43,6 +45,17 @@ public class ShortUrlService {
     }
 
     private String generateShortUrl(String url) {
-        return "" + url.hashCode();
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hash = digest.digest(url.getBytes("UTF-8"));
+            StringBuilder shortenedString = new StringBuilder();
+            for (int i = 0; i < 7; i++) {
+                // convert each byte to a hexadecimal string and append to the shortenedString
+                shortenedString.append(String.format("%02x", hash[i]));
+            }
+            return shortenedString.toString().substring(0,7);
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating shortened string", e);
+        }
     }
 }
